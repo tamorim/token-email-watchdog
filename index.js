@@ -42,7 +42,7 @@ const copyToken = () => {
           ncp.copy(token, () => {
             notifier.notify({
               title: 'Token E-mail Watchdog',
-              message: `Copied token ${token} on the clipboard!`
+              message: `Copied token ${token} to the clipboard!`
             })
 
             imap.move(mail, '[Gmail]/Todos os e-mails', err => {
