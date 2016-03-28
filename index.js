@@ -6,7 +6,7 @@ const notifier = require('node-notifier')
 const fs = require('fs')
 const os = require('os')
 
-let optionsFile;
+let optionsFile
 try {
   optionsFile = fs.readFileSync(`${os.homedir()}/.token-watchdog.json`)
 } catch (e) {
@@ -26,9 +26,9 @@ const copyToken = () => {
   imap.search(['UNSEEN', ['HEADER', 'FROM', '']], (err, data) => {
     if (err) throw err
 
-    if (data.length === 0) return;
+    if (data.length === 0) return
 
-    const mail = data.pop();
+    const mail = data.pop()
     const f = imap.fetch(mail, { bodies: 'HEADER.FIELDS (SUBJECT)' })
 
     f.on('message', msg => {
