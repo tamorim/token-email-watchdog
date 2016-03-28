@@ -8,13 +8,13 @@ const os = require('os')
 
 let optionsFile
 try {
-  optionsFile = fs.readFileSync(`${os.homedir()}/.token-watchdog.json`)
+  optionsFile = JSON.parse(fs.readFileSync(`${os.homedir()}/.token-watchdog.json`))
 } catch (e) {
   console.error('No .token-watchdog.json file found on the home directory ):')
   process.exit(1)
 }
 
-const imap = new Imap(JSON.parse(optionsFile))
+const imap = new Imap(optionsFile.auth)
 
 const openInbox = () => {
   imap.openBox('INBOX', err => {
@@ -23,7 +23,7 @@ const openInbox = () => {
 }
 
 const copyToken = () => {
-  imap.search(['UNSEEN', ['HEADER', 'FROM', '']], (err, data) => {
+  imap.search(['UNSEEN', ['HEADER', 'FROM', optionsFile.mail.from]], (err, data) => {
     if (err) throw err
 
     if (data.length === 0) return
@@ -37,7 +37,7 @@ const copyToken = () => {
         stream.on('data', chunk => buffer += chunk.toString())
 
         stream.once('end', () => {
-          const token = buffer.match(/\d{6}/)[0]
+          const token = buffer.match(`\\d{${optionsFile.mail.digits}}`)[0]
 
           ncp.copy(token, () => {
             notifier.notify({
