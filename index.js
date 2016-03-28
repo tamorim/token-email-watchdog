@@ -3,14 +3,18 @@
 const Imap = require('imap')
 const ncp = require('copy-paste')
 const notifier = require('node-notifier')
+const fs = require('fs')
+const os = require('os')
 
-const imap = new Imap({
-  user: '',
-  password: '',
-  host: '',
-  port: '',
-  tls: true
-})
+let optionsFile;
+try {
+  optionsFile = fs.readFileSync(`${os.homedir()}/.token-watchdog.json`)
+} catch (e) {
+  console.error('No .token-watchdog.json file found on the home directory ):')
+  process.exit(1)
+}
+
+const imap = new Imap(JSON.parse(optionsFile))
 
 const openInbox = () => {
   imap.openBox('INBOX', err => {
