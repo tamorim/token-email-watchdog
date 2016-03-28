@@ -1,0 +1,22 @@
+{
+  "name": "token-email-watchdog",
+  "version": "0.1.0",
+  "description": "Watch your email for activation tokens",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "token-email-watchdog"
+  },
+  "keywords": [
+    "node",
+    "email",
+    "token"
+  ],
+  "author": "Thor Amorim",
+  "license": "MIT",
+  "dependencies": {
+    "copy-paste": "^1.1.4",
+    "imap": "^0.8.16",
+    "node-notifier": "^4.5.0"
+  }
+}
